@@ -1,0 +1,103 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution 
+{
+    public:
+    //Function to find minimum time required to rot all oranges. 
+    int orangesRotting(vector<vector<int>>& grid) {
+     queue<pair<int,int>> q;
+       int x_cord[4]={-1,0,0,1};
+       int y_cord[4]={0,1,-1,0};
+       int ans=0;
+       int fresh=0;
+       int n=grid.size();
+       int m=grid[0].size();
+       for(int i=0;i<n;i++)
+       {
+         for(int j=0;j<m;j++)
+           {
+               if(grid[i][j]==2)
+               {
+                   q.push({i,j});
+               }
+               
+               if(grid[i][j]==1)
+               {
+                   fresh++;
+               }
+           }
+       }
+     //  lon long int ans=;
+       while(!q.empty())
+       {
+           int size=q.size();
+         bool  flag =false;
+         while(size--)
+           {
+               int x=q.front().first;
+               int y=q.front().second;
+               
+               q.pop();
+               
+               for(int k=0;k<4;k++)
+               {
+                   int new_x=x+x_cord[k];
+                   int new_y=y+y_cord[k];
+                   
+                   if((new_x>=0 && new_x<n ) && ( new_y>=0 && new_y<m) && (grid[new_x][new_y]==1))
+                   {
+                       fresh--;
+                       grid[new_x][new_y]=2;
+                       q.push({new_x,new_y});
+                       if(flag==false)
+                       {
+                           ans++;
+                           flag=true;
+                       }
+                   }
+               }
+           }
+       //    ans++;
+           
+         if(fresh==0)
+         {
+             return ans;
+         }
+       }
+       
+       if(fresh>0)
+       {
+           return -1;
+       }
+       
+       if(ans==0)
+       {
+           return 0;
+       }
+       
+       return ans;
+   }
+};
+
+
+// { Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		int n, m;
+		cin >> n >> m;
+		vector<vector<int>>grid(n, vector<int>(m, -1));
+		for(int i = 0; i < n; i++){
+			for(int j = 0; j < m; j++){
+				cin >> grid[i][j];
+			}
+		}
+		Solution obj;
+		int ans = obj.orangesRotting(grid);
+		cout << ans << "\n";
+	}
+	return 0;
+}  // } Driver Code Ends
